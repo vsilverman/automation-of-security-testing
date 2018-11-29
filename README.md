@@ -10,8 +10,11 @@ This repo shows sample of automating security and performance testing.
 -	Verify that python is available on your machine
 	(in case python is not available just install it)
 	
--	Start the test by executing the python file from
-    your favorite IDE or simply by running
+-	In case your chromedriver is already installed execute
+    the python file from your favorite IDE or by running
 
 			python fluentexpress_webdriver_admin.py
 	
+-   In case your chromedriver is not installed simply run
+
+            ./test-start.sh

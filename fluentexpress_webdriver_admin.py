@@ -18,7 +18,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
-import unittest, time, re
+import os
+import unittest
+import time
+import re
+
 
 class FluentAdminActions(unittest.TestCase):
     def setUp(self):
@@ -67,7 +71,7 @@ class FluentAdminActions(unittest.TestCase):
         driver.find_element_by_name("password").send_keys("321qa")
         driver.find_element_by_name("photo").click()
         driver.find_element_by_name("photo").clear()
-        driver.find_element_by_name("photo").send_keys("admin-icon192x192.png")
+        driver.find_element_by_name("photo").send_keys(os.getcwd() + "/images/admin-icon192x192.png")
         driver.find_element_by_xpath("//button[@type='submit']").click()
         driver.find_element_by_xpath("(//a[contains(text(),'Log out')])[2]").click()
     
@@ -81,14 +85,14 @@ class FluentAdminActions(unittest.TestCase):
             driver.find_element_by_xpath("//button[@type='submit']").click()
             driver.find_element_by_xpath("(//a[contains(text(),'Log out')])[2]").click()
 
-
     def test_fluent_admin_login_logout(self):
         driver = self.test_fluent_admin_login()
         driver.find_element_by_xpath("(//a[contains(text(),'Log out')])[2]").click()
     
     def add_new_corrector(self, n):
+        image = os.getcwd() + '/images/perf-tester.png'
         names = ['name', 'short-name', 'email', 'password', 'photo']
-        values =['Perf Tester' + str(n), 'pt' + str(n), 'pt'+str(n)+'@pt', '321qa', 'perf-tester.png']
+        values = ['Perf Tester' + str(n), 'pt' + str(n), 'pt' + str(n) + '@pt', '321qa', image]
         for i in range(len(names)):
             self.driver.find_element_by_name(names[i]).click()
             self.driver.find_element_by_name(names[i]).clear()
@@ -107,7 +111,7 @@ class FluentAdminActions(unittest.TestCase):
         el_key = "password" + str(n)
         elements[el_key] = "321qa"
         el_key = "photo" + str(n)
-        elements[el_key] = "/Users/vlad/temp/perf-tester.png"
+        elements[el_key] = os.getcwd() + "/images/perf-tester.png"
         print ("These are Elements items")
         for ekey in elements.keys():
             print(ekey, elements[ekey])
@@ -115,15 +119,18 @@ class FluentAdminActions(unittest.TestCase):
             self.driver.find_element_by_name(ekey).clear()
             self.driver.find_element_by_name(ekey).send_keys(elements[ekey])
 
-
     def is_element_present(self, how, what):
-        try: self.driver.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
+        try:
+            self.driver.find_element(by=how, value=what)
+        except NoSuchElementException as e:
+            return False
         return True
     
     def is_alert_present(self):
-        try: self.driver.switch_to_alert()
-        except NoAlertPresentException as e: return False
+        try:
+            self.driver.switch_to_alert()
+        except NoAlertPresentException as e:
+            return False
         return True
     
     def close_alert_and_get_its_text(self):
@@ -135,11 +142,13 @@ class FluentAdminActions(unittest.TestCase):
             else:
                 alert.dismiss()
             return alert_text
-        finally: self.accept_next_alert = True
+        finally:
+            self.accept_next_alert = True
     
     def tearDown(self):
         self.driver.quit()
         self.assertEqual([], self.verificationErrors)
+
 
 if __name__ == "__main__":
     unittest.main()
