@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
-./get-chrome-driber.sh
+./get-chrome-driver.sh
+./get-python.sh
 
 python fluentexpress_webdriver_admin.py
